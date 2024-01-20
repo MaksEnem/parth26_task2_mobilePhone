@@ -20,7 +20,7 @@ public:
 		std::cin >> volContactName;
 
 		contactName.push_back(volContactName);
-
+		
 	}
 
 	void SetAddNumberPhone()
@@ -33,8 +33,35 @@ public:
 		volNumberPhone = "+7" + std::to_string(number);
 		
 		numberPhone.push_back(volNumberPhone);
-
+		
 	}
+
+	std::string GetNameSearch(std::string subscriberName)
+	{
+		bool is_found = false;
+		for (int i = 0; i < contactName.size(); ++i)
+		{
+
+			if (contactName[i] == subscriberName)
+			{
+
+				subscriberName = numberPhone[i];
+				return subscriberName;
+				is_found = true;
+				break;
+
+			}			
+		}
+
+		if (!is_found)
+		{
+
+			subscriberName = "Nothing found";
+			return subscriberName;
+
+		}
+	}
+
 };
 
 class Phone
@@ -46,15 +73,45 @@ private:
 
 public:
 
+	std::string subscriberName;
+
+	void Call(AddressBook subscriberBook)
+	{
+
+		std::cout << "Enter the phone number or name of the person you want to call: ";
+		std::cin >> subscriberName;
+
+		if (subscriberName[0] == '+')
+		{
+
+			std::cout << subscriberName << std::endl;
+
+		}
+		else if (subscriberName[0] != '+')
+		{
+			
+			std::cout << "CALL: " << subscriberBook.GetNameSearch(subscriberName) << std::endl;
+
+		}
+		else
+		{
+
+			std::cout << "Incorrect phone number entered" << std::endl;
+
+		}
+	}
+
+
+
 
 };
 int main() {
 
-	AddressBook subscriber;
-
-	std::string command;
+	AddressBook subscriberBook;
+	Phone communique;
 	
-
+	std::string command;	
+	
 	do
 	{
 
@@ -63,13 +120,13 @@ int main() {
 
 		if (command == "add")
 		{
-			subscriber.SetAddContactName();
-			subscriber.SetAddNumberPhone();
+			subscriberBook.SetAddContactName();
+			subscriberBook.SetAddNumberPhone();
 		}
 		else if (command == "call")
 		{
 
-
+			communique.Call(subscriberBook);
 
 		}
 		else if (command == "sms")
